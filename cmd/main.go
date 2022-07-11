@@ -6,12 +6,13 @@ import (
 	"net"
 	"net/http"
 
+	"zen_api/internal/app"
+	"zen_api/internal/service"
+
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
-	"zen_api/internal/app"
-	"zen_api/internal/service"
 
 	"zen_api/internal/repository"
 	desc "zen_api/pkg"
@@ -48,7 +49,7 @@ func main() {
 	tokenManager := service.NewTokenManager(signedKeyJWT)
 
 	// Register all services
-	dao := repository.NewDAO(db)
+	dao := repository.NewDAO()
 	userService := service.NewUserService(dao)
 	answerService := service.NewAnswerService(dao)
 	authService := service.NewAuthService(dao, tokenManager)
